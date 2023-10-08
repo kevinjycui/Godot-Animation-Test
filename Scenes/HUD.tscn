@@ -12,7 +12,7 @@
 bg_color = Color(0, 0, 0, 0.0705882)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8kx1d"]
-bg_color = Color(0.819608, 0.52549, 0.192157, 0.439216)
+bg_color = Color(0.537255, 0.333333, 0.0941176, 0.592157)
 border_color = Color(0, 0, 0, 1)
 
 [node name="HUD" type="CanvasLayer"]
@@ -122,12 +122,12 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = -2.6
 anchor_right = 26.2
-offset_bottom = 24.0
+offset_left = 6.10352e-05
+offset_top = 8.0
+offset_bottom = 16.0
 theme_override_font_sizes/font_size = 41
 theme_override_styles/background = SubResource("StyleBoxFlat_f8c4l")
 theme_override_styles/fill = SubResource("StyleBoxFlat_8kx1d")
-step = 1.0
-rounded = true
 show_percentage = false
 
 [node name="Label" type="Label" parent="HealthBar"]
@@ -135,12 +135,12 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 24.6
 offset_left = -95.9999
-offset_top = 24.0
+offset_top = -24.0
 offset_right = -304.0
-offset_bottom = 53.0
+offset_bottom = 5.0
 theme_override_colors/font_color = Color(0, 0, 0, 0.266667)
 theme_override_font_sizes/font_size = 18
-text = "Blendaquiel"
+text = "LVL 10 ANGEL Blendaquiel"
 vertical_alignment = 1
 
 [connection signal="timeout" from="HideTimer" to="Panel" method="_on_hide_timer_timeout"]

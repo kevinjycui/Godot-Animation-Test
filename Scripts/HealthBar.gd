@@ -1,6 +1,6 @@
 extends Control
 
-@export var start_animation_speed = 100
+@export var start_animation_speed = 20
 
 var started = false
 
