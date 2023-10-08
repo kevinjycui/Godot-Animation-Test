@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://drurewdwmuvsk"]
+
+[ext_resource type="PackedScene" uid="uid://cop3skhq61vln" path="res://Art/Ramiel.dae" id="1_j4ssu"]
+[ext_resource type="AudioStream" uid="uid://dcsnjr41lwkjt" path="res://Art/Audio/Ramiel.mp3" id="2_53akb"]
+
+[node name="Ramiel" instance=ExtResource("1_j4ssu")]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="3"]
+stream = ExtResource("2_53akb")
+unit_size = 50.0
+autoplay = true

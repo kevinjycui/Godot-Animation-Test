@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://cggyh5ygckiqd"]
+
+[ext_resource type="PackedScene" uid="uid://ch7pfhq8bfc3o" path="res://Scenes/Sahaquiel.tscn" id="1_gmg8d"]
+[ext_resource type="Texture2D" uid="uid://ccdtx25gojswf" path="res://Art/Materials/aerial_asphalt_01_diff_4k.jpg" id="1_ms7sn"]
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_x1f20"]
+[ext_resource type="Texture2D" uid="uid://bl3eri0uctcn8" path="res://Art/Materials/aerial_asphalt_01_rough_4k.jpg" id="2_dwf0w"]
+[ext_resource type="PackedScene" uid="uid://dgxyakt2m6nmn" path="res://Scenes/Eva.tscn" id="2_k0m6a"]
+[ext_resource type="PackedScene" uid="uid://dojxebd42ark3" path="res://Scenes/Shinji.tscn" id="3_impj8"]
+[ext_resource type="PackedScene" uid="uid://bvwm3u788pekv" path="res://Scenes/Rei.tscn" id="7_gg8oh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e42q7"]
+size = Vector3(3000, 1, 3000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1b2a"]
+albedo_texture = ExtResource("1_ms7sn")
+metallic = 1.0
+metallic_specular = 0.54
+metallic_texture = ExtResource("2_dwf0w")
+emission_operator = 1
+emission_texture = ExtResource("2_dwf0w")
+backlight_enabled = true
+backlight = Color(0.396078, 0.396078, 0.396078, 1)
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_72fxi"]
+lightmap_size_hint = Vector2i(10004, 5016)
+material = SubResource("StandardMaterial3D_s1b2a")
+size = Vector3(3000, 1, 3000)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_x1f20")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_e42q7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CollisionShape3D"]
+mesh = SubResource("BoxMesh_72fxi")
+
+[node name="Sahaquiel" parent="." instance=ExtResource("1_gmg8d")]
+transform = Transform3D(-90, 2.11139e-05, -2.30039e-06, -3.97321e-06, -26.3134, -86.0674, -2.08639e-05, -86.0674, 26.3134, 0, 333, 650)
+
+[node name="Shinji" parent="." instance=ExtResource("3_impj8")]
+
+[node name="Eva" parent="." instance=ExtResource("2_k0m6a")]
+transform = Transform3D(1.445, 0, 0, 0, 1.445, 0, 0, 0, 1.445, 0, 0, -619.283)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.157107, -0.987582, 0, 0.987582, 0.157107, 0, 0, 0)
+light_color = Color(1, 0.662745, 0.105882, 1)
+light_energy = 11.365
+light_angular_distance = 90.0
+shadow_enabled = true
+shadow_bias = 1.0
+shadow_normal_bias = 1.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.353553, 0.176777, -0.918559, 0.353553, 0.883883, 0.306186, 0.866025, -0.433013, 0.25, 0, 0, 0)
+light_color = Color(0.909804, 0.831373, 0.564706, 1)
+light_energy = 0.75
+shadow_enabled = true
+shadow_blur = 0.435
+
+[node name="Rei_Animated" parent="." instance=ExtResource("7_gg8oh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.016, 0, -22.2041)

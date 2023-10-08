@@ -1,0 +1,21 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://dhxhc5cw5rx1"]
+
+[ext_resource type="Texture2D" uid="uid://sitwkngsjy17" path="res://Art/Materials/mud_road_puresky_4k.hdr" id="1_3cmub"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_nej6x"]
+panorama = ExtResource("1_3cmub")
+
+[sub_resource type="Sky" id="Sky_4aqb7"]
+sky_material = SubResource("PanoramaSkyMaterial_nej6x")
+
+[resource]
+background_mode = 2
+background_energy_multiplier = 0.75
+sky = SubResource("Sky_4aqb7")
+reflected_light_source = 2
+fog_enabled = true
+fog_light_color = Color(0.666667, 0.521569, 0.34902, 1)
+fog_light_energy = 0.75
+fog_density = 0.006
+fog_aerial_perspective = 0.16
+fog_sky_affect = 0.63

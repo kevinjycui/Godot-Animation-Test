@@ -1,0 +1,149 @@
+[gd_scene load_steps=10 format=3 uid="uid://dns57qydwhtvb"]
+
+[ext_resource type="Script" path="res://Scripts/Dialogue.gd" id="1_1loak"]
+[ext_resource type="Script" path="res://Scripts/HUD.gd" id="1_e8v63"]
+[ext_resource type="Script" path="res://Scripts/Typewriter.gd" id="1_n76mt"]
+[ext_resource type="AudioStream" uid="uid://ogddo81ihiyx" path="res://Art/Audio/Voicelines1.mp3" id="2_wwg2t"]
+[ext_resource type="Script" path="res://Scripts/Names.gd" id="4_185ym"]
+[ext_resource type="Script" path="res://Scripts/OnReadyAudio.gd" id="5_chx33"]
+[ext_resource type="Script" path="res://Scripts/HealthBar.gd" id="5_cw68v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f8c4l"]
+bg_color = Color(0, 0, 0, 0.0705882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8kx1d"]
+bg_color = Color(0.819608, 0.52549, 0.192157, 0.439216)
+border_color = Color(0, 0, 0, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_e8v63")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_left = 0.503
+anchor_top = 1.0
+anchor_right = 0.503
+anchor_bottom = 1.0
+offset_left = -365.76
+offset_top = -168.0
+offset_right = 364.24
+offset_bottom = -48.0
+script = ExtResource("1_1loak")
+
+[node name="Label" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 24.0
+offset_right = 688.0
+offset_bottom = 112.0
+theme_override_font_sizes/normal_font_size = 24
+text = "Angel approaching! Approximate distance: 
+20000!"
+script = ExtResource("1_n76mt")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_wwg2t")
+script = ExtResource("5_chx33")
+
+[node name="HideTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="Names" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1880.0
+offset_bottom = -1040.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_185ym")
+
+[node name="HideTimer" type="Timer" parent="Names"]
+wait_time = 8.0
+one_shot = true
+
+[node name="Name1" type="Label" parent="Names"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.709804)
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 764.0
+offset_top = 168.0
+offset_right = 1099.0
+offset_bottom = 238.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 42
+text = "P1"
+horizontal_alignment = 1
+
+[node name="Name2" type="Label" parent="Names"]
+self_modulate = Color(1, 1, 1, 0.709804)
+layout_mode = 2
+anchor_left = 0.479
+anchor_top = 1.0
+anchor_right = 0.479
+anchor_bottom = 1.0
+offset_left = 1084.84
+offset_top = 232.0
+offset_right = 1323.84
+offset_bottom = 302.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 28
+text = "P2"
+horizontal_alignment = 1
+
+[node name="HealthBarTimer" type="Timer" parent="."]
+wait_time = 26.0
+one_shot = true
+autostart = true
+
+[node name="HealthBar" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.525
+anchor_right = 0.525
+offset_left = -520.0
+offset_top = 32.0
+offset_right = -480.0
+offset_bottom = 72.0
+script = ExtResource("5_cw68v")
+
+[node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.6
+anchor_right = 26.2
+offset_bottom = 24.0
+theme_override_font_sizes/font_size = 41
+theme_override_styles/background = SubResource("StyleBoxFlat_f8c4l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8kx1d")
+step = 1.0
+rounded = true
+show_percentage = false
+
+[node name="Label" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 24.6
+offset_left = -95.9999
+offset_top = 24.0
+offset_right = -304.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.266667)
+theme_override_font_sizes/font_size = 18
+text = "Blendaquiel"
+vertical_alignment = 1
+
+[connection signal="timeout" from="HideTimer" to="Panel" method="_on_hide_timer_timeout"]
+[connection signal="timeout" from="HideTimer" to="Names" method="_on_show_timeout"]
+[connection signal="timeout" from="Names/HideTimer" to="Names" method="_on_hide_timeout"]
+[connection signal="timeout" from="HealthBarTimer" to="." method="start"]

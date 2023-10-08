@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://bw61k1n172imi"]
+
+[ext_resource type="Script" path="res://Scripts/Main2.gd" id="1_25r8n"]
+[ext_resource type="Texture2D" uid="uid://ccdtx25gojswf" path="res://Art/Materials/aerial_asphalt_01_diff_4k.jpg" id="2_ec4in"]
+[ext_resource type="Texture2D" uid="uid://bl3eri0uctcn8" path="res://Art/Materials/aerial_asphalt_01_rough_4k.jpg" id="3_54xhv"]
+[ext_resource type="PackedScene" uid="uid://drurewdwmuvsk" path="res://Scenes/Ramiel.tscn" id="3_evuix"]
+[ext_resource type="Script" path="res://Scripts/Ramiel.gd" id="4_fqne1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e42q7"]
+size = Vector3(3000, 1, 3000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1b2a"]
+albedo_texture = ExtResource("2_ec4in")
+metallic = 1.0
+metallic_specular = 0.54
+metallic_texture = ExtResource("3_54xhv")
+emission_operator = 1
+emission_texture = ExtResource("3_54xhv")
+backlight_enabled = true
+backlight = Color(0.396078, 0.396078, 0.396078, 1)
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_72fxi"]
+lightmap_size_hint = Vector2i(10004, 5016)
+material = SubResource("StandardMaterial3D_s1b2a")
+size = Vector3(3000, 1, 3000)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_72ylu"]
+load_path = "res://.godot/imported/mud_road_puresky_4k.hdr-6e718b1233a6f2d0f1e98a1918185dbe.bptc.ctex"
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_6ng24"]
+panorama = SubResource("CompressedTexture2D_72ylu")
+
+[sub_resource type="Sky" id="Sky_8kqmg"]
+sky_material = SubResource("PanoramaSkyMaterial_6ng24")
+
+[sub_resource type="Environment" id="Environment_0g6ha"]
+background_mode = 2
+background_energy_multiplier = 0.75
+sky = SubResource("Sky_8kqmg")
+reflected_light_source = 2
+fog_enabled = true
+fog_light_color = Color(0.666667, 0.521569, 0.34902, 1)
+fog_light_energy = 0.75
+fog_density = 0.0015
+fog_aerial_perspective = 0.16
+fog_sky_affect = 0.63
+
+[node name="Main2" type="Node3D"]
+script = ExtResource("1_25r8n")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_e42q7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CollisionShape3D"]
+mesh = SubResource("BoxMesh_72fxi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.157107, -0.987582, 0, 0.987582, 0.157107, 0, 0, 0)
+light_color = Color(1, 0.662745, 0.105882, 1)
+light_energy = 11.365
+light_angular_distance = 90.0
+shadow_enabled = true
+shadow_bias = 1.0
+shadow_normal_bias = 1.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.353553, 0.176777, -0.918559, 0.353553, 0.883883, 0.306186, 0.866025, -0.433013, 0.25, 0, 0, 0)
+light_color = Color(0.909804, 0.831373, 0.564706, 1)
+light_energy = 0.75
+shadow_enabled = true
+shadow_blur = 0.435
+
+[node name="Ramiel" parent="." instance=ExtResource("3_evuix")]
+transform = Transform3D(4.11001, 0, -1.10128, 0, 4.255, 0, 1.10128, 0, 4.11001, 172.272, 81, -183)
+script = ExtResource("4_fqne1")
+
+[node name="MainCamera" type="Camera3D" parent="."]
+transform = Transform3D(0.275637, -0.387913, -0.879516, 0, 0.91496, -0.403545, 0.961262, 0.111232, 0.252197, -81.752, 2.13, 26.277)
+environment = SubResource("Environment_0g6ha")
+current = true
+fov = 70.8
+
+[node name="QuitTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="QuitTimer" to="." method="_on_quit_timer_timeout"]

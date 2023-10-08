@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://db10kexm6p4e8"]
+
+[ext_resource type="PackedScene" uid="uid://cggyh5ygckiqd" path="res://Scenes/Main.tscn" id="1_d2kqt"]
+[ext_resource type="Script" path="res://Scripts/View.gd" id="1_sldng"]
+[ext_resource type="PackedScene" uid="uid://dns57qydwhtvb" path="res://Scenes/HUD.tscn" id="2_b8yvp"]
+[ext_resource type="Environment" uid="uid://dhxhc5cw5rx1" path="res://Environments/ViewEnvironment.tres" id="3_lyqpl"]
+[ext_resource type="AudioStream" uid="uid://cnwba3wssqqke" path="res://Art/Audio/Neon Genesis Evangelion (N64)：09 Decisive Battle [wtfRJ50R3aA].mp3" id="4_tay7r"]
+[ext_resource type="Script" path="res://Scripts/OnReadyAudio.gd" id="7_58i3g"]
+
+[node name="View" type="Node"]
+script = ExtResource("1_sldng")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HUD" parent="HBoxContainer" instance=ExtResource("2_b8yvp")]
+
+[node name="MainViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="MainViewport" type="SubViewport" parent="HBoxContainer/MainViewportContainer"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Main" parent="HBoxContainer/MainViewportContainer/MainViewport" instance=ExtResource("1_d2kqt")]
+
+[node name="MainCamera" type="Camera3D" parent="HBoxContainer/MainViewportContainer/MainViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.964562, 0.263856, 0, -0.263856, 0.964562, 0.113078, 7.63027, 8.38236)
+environment = ExtResource("3_lyqpl")
+current = true
+
+[node name="SecondCamera" type="Camera3D" parent="HBoxContainer/MainViewportContainer/MainViewport"]
+transform = Transform3D(-1, -1.59315e-08, -8.59589e-08, 0, 0.983255, -0.182236, 8.74228e-08, -0.182236, -0.983255, 0, 2.215, -31.82)
+
+[node name="IntermediateCamera" type="Camera3D" parent="HBoxContainer/MainViewportContainer/MainViewport"]
+transform = Transform3D(0.0906326, -0.490397, -0.866774, 0, 0.870356, -0.492424, 0.995884, 0.0446296, 0.0788826, -19.725, 0.84, -0.055)
+
+[node name="TransitionCamera" type="Camera3D" parent="HBoxContainer/MainViewportContainer/MainViewport"]
+environment = ExtResource("3_lyqpl")
+current = true
+
+[node name="CamSwitchTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_tay7r")
+volume_db = -5.0
+script = ExtResource("7_58i3g")
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="awaken_sahaquiel" from="HBoxContainer/HUD" to="HBoxContainer/MainViewportContainer/MainViewport/Main" method="_on_hud_awaken_sahaquiel"]
+[connection signal="timeout" from="CamSwitchTimer" to="." method="_on_cam_switch_timer_timeout"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
