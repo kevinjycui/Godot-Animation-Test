@@ -2,18 +2,24 @@
 
 [ext_resource type="Script" path="res://Scripts/Dialogue.gd" id="1_1loak"]
 [ext_resource type="Script" path="res://Scripts/HUD.gd" id="1_e8v63"]
-[ext_resource type="Script" path="res://Scripts/Typewriter.gd" id="1_n76mt"]
 [ext_resource type="AudioStream" uid="uid://ogddo81ihiyx" path="res://Art/Audio/Voicelines1.mp3" id="2_wwg2t"]
 [ext_resource type="Script" path="res://Scripts/Names.gd" id="4_185ym"]
 [ext_resource type="Script" path="res://Scripts/OnReadyAudio.gd" id="5_chx33"]
 [ext_resource type="Script" path="res://Scripts/HealthBar.gd" id="5_cw68v"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jp2no"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f8c4l"]
 bg_color = Color(0, 0, 0, 0.0705882)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8kx1d"]
-bg_color = Color(0.537255, 0.333333, 0.0941176, 0.592157)
-border_color = Color(0, 0, 0, 1)
+bg_color = Color(0.537255, 0.333333, 0.0941176, 0.721569)
+border_width_right = 1
+border_color = Color(0.960784, 0.733333, 0.415686, 0.615686)
+corner_radius_top_left = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.741176)
+shadow_size = 2
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_e8v63")
@@ -28,18 +34,34 @@ offset_left = -365.76
 offset_top = -168.0
 offset_right = 364.24
 offset_bottom = -48.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jp2no")
 script = ExtResource("1_1loak")
 
 [node name="Label" type="RichTextLabel" parent="Panel"]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 24.0
-offset_right = 688.0
-offset_bottom = 112.0
-theme_override_font_sizes/normal_font_size = 24
-text = "Angel approaching! Approximate distance: 
-20000!"
-script = ExtResource("1_n76mt")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -645.0
+offset_top = -152.0
+offset_right = 635.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/default_color = Color(1, 1, 1, 0.717647)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 0
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[center]Angel approaching! Approximate distance: 20000![/center]"
+
+[node name="DialogueTimer" type="Timer" parent="Panel"]
+wait_time = 2.8
+autostart = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_wwg2t")
@@ -85,6 +107,7 @@ text = "P1"
 horizontal_alignment = 1
 
 [node name="Name2" type="Label" parent="Names"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.709804)
 layout_mode = 2
 anchor_left = 0.479
@@ -109,12 +132,14 @@ autostart = true
 
 [node name="HealthBar" type="Control" parent="."]
 layout_mode = 3
-anchor_left = 0.525
-anchor_right = 0.525
-offset_left = -520.0
-offset_top = 32.0
-offset_right = -480.0
-offset_bottom = 72.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -472.0
+offset_top = 720.0
+offset_right = -432.0
+offset_bottom = 760.0
+grow_horizontal = 2
 script = ExtResource("5_cw68v")
 
 [node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
@@ -122,27 +147,51 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = -2.6
 anchor_right = 26.2
-offset_left = 6.10352e-05
-offset_top = 8.0
-offset_bottom = 16.0
+offset_left = 128.0
+offset_top = 104.0
+offset_right = -128.0
+offset_bottom = 112.0
 theme_override_font_sizes/font_size = 41
 theme_override_styles/background = SubResource("StyleBoxFlat_f8c4l")
 theme_override_styles/fill = SubResource("StyleBoxFlat_8kx1d")
+max_value = 1000.0
+step = 1.0
+value = 50.0
 show_percentage = false
 
-[node name="Label" type="Label" parent="HealthBar"]
+[node name="Value" type="Label" parent="HealthBar"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 24.6
-offset_left = -95.9999
-offset_top = -24.0
-offset_right = -304.0
-offset_bottom = 5.0
-theme_override_colors/font_color = Color(0, 0, 0, 0.266667)
+offset_left = 976.0
+offset_top = 72.0
+offset_right = 56.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.454902)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 0
 theme_override_font_sizes/font_size = 18
-text = "LVL 10 ANGEL Blendaquiel"
+text = "50"
+horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Name" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 24.6
+offset_left = 32.0
+offset_top = 72.0
+offset_right = -304.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.717647)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 0
+theme_override_font_sizes/font_size = 18
+text = "3.6.4th LTS Angel Blendaquiel"
+vertical_alignment = 1
+
+[connection signal="timeout" from="Panel/DialogueTimer" to="Panel" method="_on_dialogue_timer_timeout"]
 [connection signal="timeout" from="HideTimer" to="Panel" method="_on_hide_timer_timeout"]
 [connection signal="timeout" from="HideTimer" to="Names" method="_on_show_timeout"]
 [connection signal="timeout" from="Names/HideTimer" to="Names" method="_on_hide_timeout"]

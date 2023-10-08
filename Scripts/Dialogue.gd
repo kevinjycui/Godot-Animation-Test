@@ -2,7 +2,7 @@ extends Panel
 
 @export var speaker = [
 	"",
-	"COMMANDER KATSURAGI MISATO: "
+	""
 ]
 
 @export var dialogue = [
@@ -13,13 +13,10 @@ extends Panel
 var index = 0
 
 func next_line():
-	$Label.visible_characters = 0
-	$Label.text = speaker[index] + dialogue[index]
-	$Label.lapsed = len(speaker[index])
+	$Label.text = "[center]" + speaker[index] + dialogue[index] + "[/center]"
 	index += 1	
 
 func _ready():
-	$Label.started = true
 	next_line()
 
 func _process(delta):
@@ -28,3 +25,9 @@ func _process(delta):
 
 func _on_hide_timer_timeout():
 	hide()
+
+func _on_dialogue_timer_timeout():
+	if index >= len(dialogue):
+		$DialogueTimer.stop()
+	else:
+		next_line()
